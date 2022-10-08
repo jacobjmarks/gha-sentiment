@@ -17,10 +17,10 @@ jobs:
         with:
           script: |
             const { comment } = context.payload;
-            const sentiment = '${{steps.sentiment-analysis.outputs.result}}';
+            const sentiment = JSON.parse('${{steps.sentiment-analysis.outputs.result}}';
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: `Sentiment analysis results for [the comment](#issuecomment-${comment.id}) by @${comment.user.login}:`
-                + `\n\n\`\`\` json\n${sentiment}\n\`\`\``
+              body: `Sentiment analysis score for [the comment](#issuecomment-${comment.id}) by @${comment.user.login} :`
+                + `\n\n\`\`\` json\n${JSON.stringify(sentiment, undefined, 2)}\n\`\`\``
             });
