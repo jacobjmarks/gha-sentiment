@@ -1,0 +1,25 @@
+name: "Check sentiment"
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  check-sentiment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jacobjmarks/quick-sentiment-analysis@v1
+        id: sentiment-analysis
+        with:
+          text: ${{ github.event.comment.body }}
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              report: context.repo.repo,
+              body: context.comment.body.split('\n').map(l => `> ${l}`).join('\n')
+                + '\n\n``` json\n${{steps.sentiment-analysis.outputs.result}}\n```'
+            })
