@@ -20,8 +20,7 @@ jobs:
             const sentiment = '${{steps.sentiment-analysis.outputs.result}}';
             const quotedComment = comment.body.split('\n').map(l => `> ${l}`).join('\n');
             github.rest.issues.createComment({
+              ...context.repo,
               issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
               body: quotedComment + '\n\n``` json\n${sentiment}\n```'
             })
