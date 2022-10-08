@@ -22,6 +22,6 @@ jobs:
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
-              report: context.repo.repo,
+              repo: context.repo.repo,
               body: quotedComment + '\n\n``` json\n${sentiment}\n```'
             })
