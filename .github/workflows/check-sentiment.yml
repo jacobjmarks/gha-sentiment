@@ -16,10 +16,12 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
+            const { comment } = context.payload;
+            const sentiment = '${{steps.sentiment-analysis.outputs.result}}';
+            const quotedComment = comment.body.split('\n').map(l => `> ${l}`).join('\n');
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               report: context.repo.repo,
-              body: context.comment.body.split('\n').map(l => `> ${l}`).join('\n')
-                + '\n\n``` json\n${{steps.sentiment-analysis.outputs.result}}\n```'
+              body: quotedComment + '\n\n``` json\n${sentiment}\n```'
             })
