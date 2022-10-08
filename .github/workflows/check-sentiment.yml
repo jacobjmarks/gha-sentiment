@@ -21,6 +21,6 @@ jobs:
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: `Sentiment analysis score for [the comment](#issuecomment-${comment.id}) by @${comment.user.login} : **result.score**`
-                + `\n\n<details>\n\n\`\`\` json\n${JSON.stringify(result, undefined, 2)}\n\`\`\`\n</details>`
+              body: `Sentiment analysis score for [the comment](#issuecomment-${comment.id}) by @${comment.user.login} : **${result.score}**`
+                + `\n\n<details>\n\n\`\`\` json\n${JSON.stringify(result)}\n\`\`\`\n</details>`
             });
