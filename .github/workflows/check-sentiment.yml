@@ -18,9 +18,9 @@ jobs:
           script: |
             const { comment } = context.payload;
             const sentiment = '${{steps.sentiment-analysis.outputs.result}}';
-            const quotedComment = comment.body.split('\n').map(l => `> ${l}`).join('\n');
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: `${quotedComment}\n\n\`\`\` json\n${sentiment}\n\`\`\``
+              body: `Sentiment analysis results for [the comment](#issuecomment-${comment.id}) by @${comment.user.login}:`
+                + `\n\n\`\`\` json\n${sentiment}\n\`\`\``
             });
